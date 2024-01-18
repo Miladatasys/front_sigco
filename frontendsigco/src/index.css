@@ -579,18 +579,18 @@ input[type=file]::file-selector-button:hover {
 
 .form_footer {
 	display: flex;
-	justify-content: start;
+	justify-content: flex-start;
 	align-items: center;
 	margin-top: 35px;
 	gap: 20px;
-	
-	
+
+
 }
 
 .form_footer .btn {
 	padding: 7px 15px;
 	display: flex;
-	
+
 }
 
 @media(max-width: 584px) {

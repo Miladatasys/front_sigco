@@ -8,9 +8,7 @@ import { toastError, toastSuccess } from "../api/ToastService";
 
 import ContactList from "./ContactList"; // Importa el componente ContactList
 
-const reloadContacts = () => {
-  console.log("Recargando la lista de contactos");
-};
+
 
 const ContactDetail = ({ updateContact, updateImage }) => {
   const navigate = useNavigate();
@@ -95,7 +93,7 @@ const ContactDetail = ({ updateContact, updateImage }) => {
         <div className="profile__details">
           <img
             src={contact.photoUrl}
-            alt={`Profile photo of ${contact.name}`}
+            alt={`Foto de ${contact.name}`}
           />
           <div className="profile__metadata">
             <p className="profile__name">{contact.name}</p>
@@ -205,7 +203,7 @@ const ContactDetail = ({ updateContact, updateImage }) => {
         />
       </form>
       {/* Agrega el componente ContactList para mostrar la lista actualizada después de editar o eliminar */}
-      <ContactList currentPage={0} getAllContacts={() => {}} />
+      <ContactList currentPage={0} getAllContacts={() => { }} />
     </>
   );
 };
