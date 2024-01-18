@@ -8,14 +8,22 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
 
   useEffect(() => {
     reloadContacts();
-  }, [currentPage]); // Recargar contactos cuando cambia la página actual
+  }, [currentPage]); 
 
   return (
-    <main className="main" style={{border: '1px solid black', padding: '10px'}}>
+    <main
+      className="main"
+      style={{
+        backgroundColor: "rgba(173, 216, 230, 0.8)",
+        padding: "20px",
+        borderRadius: "10px",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+      }}
+    >
       {data?.content?.length === 0 && (
         <div>No hay contactos, por favor agrega tus contactos</div>
       )}
-
+  
       <ul className="contact__list">
         {data?.content?.length > 0 &&
           data.content.map((contact) => (
@@ -26,7 +34,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
             />
           ))}
       </ul>
-
+  
       {data?.content?.length > 0 && data?.totalPages > 1 && (
         <div className="pagination">
           <button
@@ -35,7 +43,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
           >
             &laquo;
           </button>
-
+  
           {data &&
             [...Array(data.totalPages).keys()].map((page, index) => (
               <button
@@ -46,7 +54,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
                 {page + 1}
               </button>
             ))}
-
+  
           <button
             onClick={() => getAllContacts(currentPage + 1)}
             className={data.totalPages === currentPage + 1 ? "disabled" : ""}
