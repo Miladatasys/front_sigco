@@ -11,7 +11,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
   }, [currentPage]); // Recargar contactos cuando cambia la página actual
 
   return (
-    <main className="main">
+    <main className="main" style={{}}>
       {data?.content?.length === 0 && (
         <div>No hay contactos, por favor agrega tus contactos</div>
       )}
