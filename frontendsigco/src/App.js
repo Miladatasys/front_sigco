@@ -66,7 +66,7 @@ function App() {
     }
     if (!values.email.trim()) {
       errors.email = 'El correo es obligatorio.';
-    } else if (!values.email.includes('@gmail.com', '@live.com', '@acl.cl', '@outlook.com', '@outlook.es', '@live.es', '@hotmail.com')) {
+    } else if (!values.email.includes('@gmail.com', '@live.com', '@acl.cl', '@outlook.com', '@outlook.es', '@live.es', '@hotmail.com', '.com', '.es', '.cl')) {
       errors.email = 'El correo debe tener el formato correcto "correo@example.com"';
     }
     if (!values.title.trim()) {

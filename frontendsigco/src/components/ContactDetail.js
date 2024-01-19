@@ -26,7 +26,9 @@ const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
 
 
 
-
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const { id } = useParams();
 
   const fetchContact = async (id) => {
@@ -91,7 +93,6 @@ const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
       toastError("Error al eliminar el contacto");
     }
   };
-  
 
   useEffect(() => {
     fetchContact(id);
@@ -191,7 +192,7 @@ const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
               </div>
               <div className="form_footer">
                 <button type="submit" className="btn">
-                  Modificar
+                  Guardar
                 </button>
                 <button
                   type="button"
