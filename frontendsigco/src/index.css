@@ -621,6 +621,23 @@ input[type=file]::file-selector-button:hover {
 	/* Ajusta el margen inferior del texto según sea necesario */
 }
 
+.custom-dropdown {
+	width: 100%;
+	padding: 8px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: #ffffff;
+}
+
+/* Estilo para los mensajes de validación */
+.validation-message {
+	color: #ff0000;
+	font-size: 12px;
+	margin-top: 4px;
+	display: block;
+}
+
 @media(max-width: 584px) {
 
 	/* .container{

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const reloadContacts = () => {};
+const reloadContacts = () => { };
 
 const Contact = ({ contact }) => {
   const handleReloadContacts = async () => {

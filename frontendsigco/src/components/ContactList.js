@@ -7,8 +7,8 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
   };
 
   useEffect(() => {
-    reloadContacts();
-  }, [currentPage]); 
+
+  }, [currentPage]);
 
   return (
     <main
@@ -23,7 +23,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
       {data?.content?.length === 0 && (
         <div>No hay contactos, por favor agrega tus contactos</div>
       )}
-  
+
       <ul className="contact__list">
         {data?.content?.length > 0 &&
           data.content.map((contact) => (
@@ -34,7 +34,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
             />
           ))}
       </ul>
-  
+
       {data?.content?.length > 0 && data?.totalPages > 1 && (
         <div className="pagination">
           <button
@@ -43,7 +43,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
           >
             &laquo;
           </button>
-  
+
           {data &&
             [...Array(data.totalPages).keys()].map((page, index) => (
               <button
@@ -54,7 +54,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
                 {page + 1}
               </button>
             ))}
-  
+
           <button
             onClick={() => getAllContacts(currentPage + 1)}
             className={data.totalPages === currentPage + 1 ? "disabled" : ""}

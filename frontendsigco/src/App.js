@@ -22,8 +22,9 @@ function App() {
     phone: "",
     address: "",
     title: "",
-    status: "",
+    status: "Disponible", // Establecer un valor predeterminado para el estado de cuenta
   });
+  const [validationErrors, setValidationErrors] = useState({});
 
   const getAllContacts = async (page = 0, size = 10) => {
     try {
@@ -38,11 +39,59 @@ function App() {
   };
 
   const onChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    const { name, value } = event.target;
+
+    // Lógica de validación
+    let newValue = value;
+
+    if (name === 'name') {
+      // Permitir solo caracteres alfabéticos para el campo de nombre
+      newValue = value.replace(/[^a-zA-Z\s]/g, '');
+    } else if (name === 'phone') {
+      // Permitir solo caracteres numéricos para el campo de teléfono
+      newValue = value.replace(/\D/g, '+');
+    }
+
+    // Actualizar el estado con el valor validado
+    setValues({ ...values, [name]: newValue });
   };
 
   const handleNewContact = async (event) => {
     event.preventDefault();
+
+    // Validaciones antes de enviar el formulario
+    const errors = {};
+    if (!values.name.trim()) {
+      errors.name = 'El nombre es obligatorio.';
+    }
+    if (!values.email.trim()) {
+      errors.email = 'El correo es obligatorio.';
+    } else if (!values.email.includes('@gmail.com', '@outlook.com', '@outlook.es', '@live.es', '@hotmail.com', '.com', '.es', '.cl')) {
+      errors.email = 'El correo debe tener el formato correcto "correo@example.com"';
+    }
+    if (!values.title.trim()) {
+      errors.title = 'El cargo es obligatorio.';
+    }
+    if (!values.phone.trim()) {
+      errors.phone = 'El número de contacto es obligatorio.';
+    } else if (!values.phone.includes('+')) {
+      errors.phone = 'El número debe tener el formato correcto "+"';
+    }
+    if (!values.address.trim()) {
+      errors.address = 'La dirección es obligatoria.';
+    }
+    if (!values.status.trim()) {
+      errors.status = 'El estado de cuenta es obligatorio.';
+    }
+
+    // Actualizar los errores y evitar enviar el formulario si hay errores
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    } else {
+      setValidationErrors({});
+    }
+
     try {
       const { data } = await saveContact(values);
       const formData = new FormData();
@@ -58,7 +107,7 @@ function App() {
         phone: "",
         address: "",
         title: "",
-        status: "",
+        status: "Disponible", // Restablecer el valor predeterminado para el estado de cuenta
       });
       getAllContacts();
     } catch (error) {
@@ -142,6 +191,8 @@ function App() {
                   name="name"
                   required
                 />
+                {/* Mensaje de validación */}
+                {validationErrors.name && <span className="validation-message">{validationErrors.name}</span>}
               </div>
               <div className="input-box">
                 <span className="details">Correo</span>
@@ -152,6 +203,8 @@ function App() {
                   name="email"
                   required
                 />
+                {/* Mensaje de validación */}
+                {validationErrors.email && <span className="validation-message">{validationErrors.email}</span>}
               </div>
               <div className="input-box">
                 <span className="details">Cargo</span>
@@ -162,6 +215,8 @@ function App() {
                   name="title"
                   required
                 />
+                {/* Mensaje de validación */}
+                {validationErrors.title && <span className="validation-message">{validationErrors.title}</span>}
               </div>
               <div className="input-box">
                 <span className="details">Numero de contacto</span>
@@ -172,6 +227,8 @@ function App() {
                   name="phone"
                   required
                 />
+                {/* Mensaje de validación */}
+                {validationErrors.phone && <span className="validation-message">{validationErrors.phone}</span>}
               </div>
               <div className="input-box">
                 <span className="details">Dirección</span>
@@ -182,16 +239,24 @@ function App() {
                   name="address"
                   required
                 />
+                {/* Mensaje de validación */}
+                {validationErrors.address && <span className="validation-message">{validationErrors.address}</span>}
               </div>
               <div className="input-box">
                 <span className="details">Estado de cuenta</span>
-                <input
-                  type="text"
+                {/* Uso de un dropdown con clase personalizada */}
+                <select
                   value={values.status}
                   onChange={onChange}
                   name="status"
+                  className="custom-dropdown"
                   required
-                />
+                >
+                  <option value="Disponible">Disponible</option>
+                  <option value="No disponible">No disponible</option>
+                </select>
+                {/* Mensaje de validación con clase personalizada */}
+                {validationErrors.status && <span className="validation-message">{validationErrors.status}</span>}
               </div>
               <div className="file-input">
                 <span className="details">Foto de perfil</span>
