@@ -8,10 +8,6 @@ import { toastError, toastSuccess } from "../api/ToastService";
 
 import ContactList from "./ContactList"; // Importa el componente ContactList
 
-const reloadContacts = () => {
-  console.log("Recargando la lista de contactos");
-};
-
 const ContactDetail = ({ updateContact, updateImage }) => {
   const navigate = useNavigate();
   const inputRef = useRef();
@@ -25,7 +21,11 @@ const ContactDetail = ({ updateContact, updateImage }) => {
     status: "",
     photoUrl: "",
   });
+  const [isModalOpen, setModalOpen] = useState(false);
 
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const { id } = useParams();
 
   const fetchContact = async (id) => {
@@ -71,17 +71,21 @@ const ContactDetail = ({ updateContact, updateImage }) => {
   };
 
   const onDeleteContact = async () => {
-    const confirmDelete = window.confirm("¿Seguro deseas eliminar este contacto?");
-    if (confirmDelete) {
-      try {
-        await apiDeleteContact(contact.id);
-        toastSuccess("Contacto eliminado");
-        // Agrega cualquier lógica adicional después de la eliminación, como redireccionar a la lista de contactos
-        navigate("/contacts"); // Redirige a la lista de contactos
-      } catch (error) {
-        console.log(error);
-        toastError("Error al eliminar el contacto");
-      }
+    // Abre la modal al intentar eliminar el contacto
+    setModalOpen(true);
+  };
+
+  const confirmDeleteContact = async () => {
+    try {
+      await apiDeleteContact(contact.id);
+      toastSuccess("Contacto eliminado");
+      // Cierra la modal después de eliminar el contacto
+      setModalOpen(false);
+      // Agrega cualquier lógica adicional después de la eliminación, como redireccionar a la lista de contactos
+      navigate("/contacts"); // Redirige a la lista de contactos
+    } catch (error) {
+      console.log(error);
+      toastError("Error al eliminar el contacto");
     }
   };
   
@@ -99,7 +103,7 @@ const ContactDetail = ({ updateContact, updateImage }) => {
         <div className="profile__details">
           <img
             src={contact.photoUrl}
-            alt={`Profile photo of ${contact.name}`}
+            alt={`Foto de ${contact.name}`}
           />
           <div className="profile__metadata">
             <p className="profile__name">{contact.name}</p>
@@ -184,7 +188,7 @@ const ContactDetail = ({ updateContact, updateImage }) => {
               </div>
               <div className="form_footer">
                 <button type="submit" className="btn">
-                  Guardar
+                  Modificar
                 </button>
                 <button
                   type="button"
@@ -208,8 +212,18 @@ const ContactDetail = ({ updateContact, updateImage }) => {
           accept="image/*"
         />
       </form>
+
+      {/* Modal para confirmar la eliminación */}
+      {isModalOpen && (
+        <div className="modalBorrar">
+          <p>¿Estás seguro de que quieres eliminar este contacto?</p>
+          <button type="button" className="btn btn-danger" onClick={confirmDeleteContact}>Sí, eliminar</button>
+          <button type="button" className="btn btn" onClick={() => setModalOpen(false)}>Cancelar</button>
+        </div>
+      )}
+
       {/* Agrega el componente ContactList para mostrar la lista actualizada después de editar o eliminar */}
-      <ContactList currentPage={0} getAllContacts={() => {}} />
+      <ContactList currentPage={0} getAllContacts={() => { }} />
     </>
   );
 };
