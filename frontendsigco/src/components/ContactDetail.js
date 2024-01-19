@@ -187,7 +187,7 @@ const ContactDetail = ({ updateContact, updateImage }) => {
               </div>
               <div className="form_footer">
                 <button type="submit" className="btn">
-                  Guardar
+                  Modificar
                 </button>
                 <button
                   type="button"
