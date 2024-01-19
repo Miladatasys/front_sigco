@@ -91,6 +91,7 @@ const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
       toastError("Error al eliminar el contacto");
     }
   };
+  
 
   useEffect(() => {
     fetchContact(id);
@@ -190,7 +191,7 @@ const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
               </div>
               <div className="form_footer">
                 <button type="submit" className="btn">
-                  Guardar
+                  Modificar
                 </button>
                 <button
                   type="button"
