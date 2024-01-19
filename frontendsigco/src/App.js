@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import ContactList from "./components/ContactList";
+import Login from './components/Login'; 
 import { getContacts, saveContact, udpatePhoto } from "./api/ContactService";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ContactDetail from "./components/ContactDetail";
@@ -167,6 +168,10 @@ function App() {
                   updateImage={updateImage}
                 />
               }
+            />
+            <Route
+              path="/login"
+              element={<Login />}
             />
           </Routes>
         </div>
