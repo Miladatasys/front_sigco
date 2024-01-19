@@ -71,16 +71,20 @@ const ContactDetail = ({ updateContact, updateImage }) => {
   };
 
   const onDeleteContact = async () => {
-    try {
-      await apiDeleteContact(contact.id);
-      toastSuccess("Contacto eliminado");
-      // Agrega cualquier lógica adicional después de la eliminación, como redireccionar a la lista de contactos
-      navigate("/contacts"); // Redirige a la lista de contactos
-    } catch (error) {
-      console.log(error);
-      toastError("Error al eliminar el contacto");
+    const confirmDelete = window.confirm("¿Seguro deseas eliminar este contacto?");
+    if (confirmDelete) {
+      try {
+        await apiDeleteContact(contact.id);
+        toastSuccess("Contacto eliminado");
+        // Agrega cualquier lógica adicional después de la eliminación, como redireccionar a la lista de contactos
+        navigate("/contacts"); // Redirige a la lista de contactos
+      } catch (error) {
+        console.log(error);
+        toastError("Error al eliminar el contacto");
+      }
     }
   };
+  
 
   useEffect(() => {
     fetchContact(id);
