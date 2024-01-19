@@ -67,7 +67,7 @@ const ContactDetail = ({ updateContact, updateImage }) => {
     event.preventDefault();
     await updateContact(contact);
     fetchContact(id);
-    toastSuccess("Contacto actualizado");
+    toastSuccess("Contacto actualizado!");
   };
 
   const onDeleteContact = async () => {
