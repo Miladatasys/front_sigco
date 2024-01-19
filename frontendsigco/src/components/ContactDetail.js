@@ -8,7 +8,8 @@ import { toastError, toastSuccess } from "../api/ToastService";
 
 import ContactList from "./ContactList"; // Importa el componente ContactList
 
-const ContactDetail = ({ updateContact, updateImage }) => {
+
+const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
   const navigate = useNavigate();
   const inputRef = useRef();
   const [contact, setContact] = useState({
@@ -23,9 +24,9 @@ const ContactDetail = ({ updateContact, updateImage }) => {
   });
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+
+
+
   const { id } = useParams();
 
   const fetchContact = async (id) => {
@@ -81,8 +82,10 @@ const ContactDetail = ({ updateContact, updateImage }) => {
       toastSuccess("Contacto eliminado");
       // Cierra la modal después de eliminar el contacto
       setModalOpen(false);
+
       // Agrega cualquier lógica adicional después de la eliminación, como redireccionar a la lista de contactos
       navigate("/contacts"); // Redirige a la lista de contactos
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toastError("Error al eliminar el contacto");
@@ -218,7 +221,7 @@ const ContactDetail = ({ updateContact, updateImage }) => {
           <p>¿Estás seguro de que quieres eliminar este contacto?</p>
           <button type="button" className="btn btn-danger" onClick={confirmDeleteContact}>Sí, eliminar</button>
           <button type="button" className="btn btn" onClick={() => setModalOpen(false)}>Cancelar</button>
-        </div>
+        </div >
       )}
 
       {/* Agrega el componente ContactList para mostrar la lista actualizada después de editar o eliminar */}
