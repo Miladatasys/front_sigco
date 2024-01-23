@@ -2,12 +2,15 @@ import React, { useEffect } from "react";
 import Contact from "./Contact";
 
 const ContactList = ({ data, currentPage, getAllContacts }) => {
+  // Función para recargar los contactos al hacer clic en los botones de paginación
   const reloadContacts = async () => {
     await getAllContacts(currentPage);
   };
 
+  // Efecto secundario que se ejecuta cuando cambia la página actual
   useEffect(() => {
-
+    // El efecto puede ser utilizado para realizar acciones específicas cuando cambia la página
+    // Por ejemplo, podrías realizar una operación específica cada vez que currentPage cambie
   }, [currentPage]);
 
   return (
@@ -20,10 +23,12 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
       }}
     >
+      {/* Mensaje si no hay contactos */}
       {data?.content?.length === 0 && (
         <div>No hay contactos, por favor agrega tus contactos</div>
       )}
 
+      {/* Lista de contactos */}
       <ul className="contact__list">
         {data?.content?.length > 0 &&
           data.content.map((contact) => (
@@ -35,8 +40,10 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
           ))}
       </ul>
 
+      {/* Paginación si hay más de una página de contactos */}
       {data?.content?.length > 0 && data?.totalPages > 1 && (
         <div className="pagination">
+          {/* Botón para ir a la página anterior */}
           <button
             onClick={() => getAllContacts(currentPage - 1)}
             className={currentPage === 0 ? "disabled" : ""}
@@ -44,6 +51,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
             &laquo;
           </button>
 
+          {/* Botones para cada página */}
           {data &&
             [...Array(data.totalPages).keys()].map((page, index) => (
               <button
@@ -55,6 +63,7 @@ const ContactList = ({ data, currentPage, getAllContacts }) => {
               </button>
             ))}
 
+          {/* Botón para ir a la página siguiente */}
           <button
             onClick={() => getAllContacts(currentPage + 1)}
             className={data.totalPages === currentPage + 1 ? "disabled" : ""}

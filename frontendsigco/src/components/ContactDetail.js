@@ -9,6 +9,7 @@ import { toastError, toastSuccess } from "../api/ToastService";
 import ContactList from "./ContactList"; // Importa el componente ContactList
 
 
+
 const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
   const navigate = useNavigate();
   const inputRef = useRef();
@@ -24,12 +25,19 @@ const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
   });
   const [isModalOpen, setModalOpen] = useState(false);
 
-
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  //const closeModal = () => {
+  //  setModalOpen(false);
+  //};
   const { id } = useParams();
+
+
+  const handleGoBack = () => {
+    // Utiliza reload() para recargar la página actual
+    window.location.reload();
+    // Luego, navega a la nueva página
+    window.location.href = "/contacts";
+  };
+
 
   const fetchContact = async (id) => {
     try {
@@ -98,9 +106,10 @@ const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
     fetchContact(id);
   }, [id]);
 
+
   return (
     <>
-      <Link to={"/contacts"} className="link">
+      <Link to={"/contacts"} className="link" onClick={handleGoBack} >
         <i className="bi bi-arrow-left"></i> Volver a la lista
       </Link>
       <div className="profile">
@@ -223,7 +232,7 @@ const ContactDetail = ({ updateContact, updateImage, reloadContacts }) => {
           <p>¿Estás seguro de que quieres eliminar este contacto?</p>
           <button type="button" className="btn btn-danger" onClick={confirmDeleteContact}>Sí, eliminar</button>
           <button type="button" className="btn btn" onClick={() => setModalOpen(false)}>Cancelar</button>
-        </div >
+        </div>
       )}
 
       {/* Agrega el componente ContactList para mostrar la lista actualizada después de editar o eliminar */}

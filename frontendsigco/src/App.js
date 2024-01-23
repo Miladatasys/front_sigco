@@ -5,8 +5,7 @@ import ContactList from "./components/ContactList";
 import { getContacts, saveContact, udpatePhoto } from "./api/ContactService";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ContactDetail from "./components/ContactDetail";
-import { toastError } from "./api/ToastService";
-
+import { toastError, toastSuccess } from "./api/ToastService";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -38,6 +37,8 @@ function App() {
     }
   };
 
+  const emailValidationRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
+
   const onChange = (event) => {
     const { name, value } = event.target;
 
@@ -66,8 +67,8 @@ function App() {
     }
     if (!values.email.trim()) {
       errors.email = 'El correo es obligatorio.';
-    } else if (!values.email.includes('@gmail.com', '@live.com', '@acl.cl', '@outlook.com', '@outlook.es', '@live.es', '@hotmail.com', '.com', '.es', '.cl')) {
-      errors.email = 'El correo debe tener el formato correcto "correo@example.com"';
+    } else if (!emailValidationRegex.test(values.email) || values.email.length < 5) {
+      errors.email = 'El correo debe tener un formato válido y ser al menos 5 caracteres de longitud.';
     }
     if (!values.title.trim()) {
       errors.title = 'El cargo es obligatorio.';
@@ -98,6 +99,7 @@ function App() {
       formData.append("file", file, file.name);
       formData.append("id", data.id);
       await udpatePhoto(formData);
+
       toggleModal(false);
       setFile(undefined);
       fileRef.current.value = null;
@@ -110,6 +112,7 @@ function App() {
         status: "Disponible", // Restablecer el valor predeterminado para el estado de cuenta
       });
       getAllContacts();
+      toastSuccess("Contacto agregado correctamente");
     } catch (error) {
       console.log(error);
       toastError(error.message);
@@ -120,6 +123,7 @@ function App() {
     try {
       const { data } = await saveContact(contact);
       console.log(data);
+
     } catch (error) {
       console.log(error);
       toastError(error.message);
